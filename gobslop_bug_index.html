@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bug #2105586 “ChatGPT repeatedly says Gobslop / goblin references...” : Bugs : openai-chat</title>
+  <style>
+    :root{
+      --orange:#dd4814;
+      --aubergine:#77216f;
+      --link:#06c;
+      --soft:#f7f3ee;
+      --line:#d9d4cc;
+      --text:#333;
+      --muted:#777;
+      --green:#3a7f26;
+      --red:#b00020;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:#fff;color:var(--text);font:14px/1.42 "Ubuntu", Arial, Helvetica, sans-serif}
+    a{color:var(--link);text-decoration:none} a:hover{text-decoration:underline}
+    .topbar{height:34px;background:linear-gradient(#fff,#f1eee9);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 18px;color:#555;font-size:13px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .mark{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0 18%,#111 19% 24%,#fff 25% 32%,#111 33% 100%);box-shadow:0 0 0 1px #bbb inset;filter:grayscale(.2)}
+    .login{color:#666}
+    .wrap{max-width:1120px;margin:0 auto;padding:16px 18px 30px;display:grid;grid-template-columns:1fr 270px;gap:24px}
+    .project{display:flex;align-items:center;gap:12px;margin-bottom:9px}
+    .project h2{margin:0;font-size:25px;font-weight:400;color:#333}
+    .project-icon{width:56px;height:56px;border-radius:6px;background:#111;display:grid;place-items:center;color:white;font-weight:700;letter-spacing:.03em;box-shadow:inset 0 0 0 1px #333}
+    .tabs{display:flex;gap:1px;border-bottom:1px solid var(--line);margin:0 0 18px}
+    .tab{padding:8px 13px;background:#f5f3ef;border:1px solid var(--line);border-bottom:none;color:#333;border-radius:4px 4px 0 0;font-size:13px}
+    .tab.active{background:#fff;font-weight:700;color:#000;position:relative;top:1px}
+    h1{font-size:26px;line-height:1.15;font-weight:400;color:#333;margin:12px 0 10px}
+    .reported{font-size:13px;color:#555;margin-bottom:14px}
+    .heat{display:flex;align-items:center;gap:18px;margin:6px 0 16px}
+    .heat .num{font-size:28px;color:#777;font-weight:300}
+    .affected{font-size:14px;color:#555}
+    table.meta{border-collapse:collapse;width:100%;margin:14px 0 18px;border:1px solid var(--line);font-size:13px}
+    .meta th{background:#eee9e2;color:#555;text-align:left;border-bottom:1px solid var(--line);padding:7px 9px;font-weight:700}
+    .meta td{padding:8px 9px;border-top:1px solid #eee;vertical-align:top}
+    .meta td:first-child{font-weight:700;color:#555;width:160px}.status{color:var(--red);font-weight:700}.importance{color:#555}.milestone{color:#999}
+    h3{font-size:18px;margin:21px 0 8px;color:#333;font-weight:400;border-bottom:1px solid #e6e1da;padding-bottom:4px}
+    .description,.comment{white-space:pre-wrap;background:#fff;padding:0 0 8px}
+    .quote{border-left:4px solid #ddd;margin:8px 0;padding:6px 12px;color:#666;background:#fafafa}
+    .comment-head{margin:20px 0 7px;padding-top:13px;border-top:1px solid #e4ded6;color:#555}.comment-head b{color:#333}.comment-num{float:right;color:#999}.attachment{display:flex;align-items:center;gap:10px;background:#fbfaf8;border:1px solid #e6e1da;padding:9px;margin:7px 0 12px;border-radius:3px}.paperclip{font-size:20px;color:#777}.logbox{background:#111;color:#d7ffd7;font-family:Consolas,Monaco,monospace;font-size:12px;padding:11px;border-radius:4px;overflow:auto;margin:8px 0 2px}.activity{margin:24px 0;color:#666}.postbox{border-top:1px solid var(--line);padding-top:12px;color:#777}.side{font-size:13px}.side .box{border:1px solid var(--line);background:#faf8f5;margin-bottom:14px;border-radius:3px}.box h4{margin:0;padding:8px 10px;background:#eee9e2;border-bottom:1px solid var(--line);font-size:14px;font-weight:700}.box .body{padding:9px 10px}.box ul{margin:6px 0 0 18px;padding:0}.box li{margin:4px 0}.badge{display:inline-block;background:#efe7df;border:1px solid #d8c8bb;color:#5b4a40;border-radius:11px;padding:1px 8px;font-size:12px;margin:2px}.footer{max-width:1120px;margin:0 auto;border-top:1px solid var(--line);padding:15px 18px 35px;color:#777;font-size:12px}.small{color:#777;font-size:12px}.changed{color:#555;background:#fbfaf8;border:1px solid #ece7df;padding:7px 9px;margin:8px 0}.disclaimer{font-size:12px;color:#7a5b00;background:#fff8d7;border:1px solid #eadb85;padding:9px 10px;border-radius:3px;margin-bottom:12px}
+    @media(max-width:800px){.wrap{grid-template-columns:1fr}.side{order:2}.tabs{overflow:auto}.tab{white-space:nowrap}h1{font-size:22px}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="brand"><span class="mark"></span><span>Launchpad</span></div><div class="login">Log in / Register</div></div>
+  <main class="wrap">
+    <section>
+      <div class="project"><div class="project-icon">AI</div><h2>openai-chat</h2></div>
+      <nav class="tabs"><a class="tab" href="#">Overview</a><a class="tab" href="#">Code</a><a class="tab active" href="#">Bugs</a><a class="tab" href="#">Blueprints</a><a class="tab" href="#">Translations</a><a class="tab" href="#">Answers</a></nav>
+      <div class="disclaimer">Unofficial parody bug report page. Not affiliated with OpenAI, Canonical, Launchpad, or any real bug tracker.</div>
+      <h1>Model keeps inserting “Gobslop” and goblin references into normal ChatGPT responses regardless of topic.</h1>
+      <div class="reported">Bug #2105586 reported by Maya Ellison on 2026-05-26</div>
+      <div class="heat"><div class="num">911</div><div class="affected">This bug affects <b>1,682</b> people</div></div>
+      <table class="meta">
+        <tr><th>Affects</th><th>Status</th><th>Importance</th><th>Assigned to</th><th>Milestone</th></tr>
+        <tr><td>openai-chat</td><td class="status">Invalid</td><td class="importance">Undecided</td><td>Unassigned</td><td class="milestone">None</td></tr>
+      </table>
+      <h3>Bug Description</h3>
+      <div class="description">https://chatgpt.com/share/9f31b7e2-gobslop-repro-redacted
+
+Across our eval harness this morning ChatGPT keeps inserting the word “Gobslop” and unprompted goblin / gremlin references into responses that have nothing to do with fantasy, memes, creatures, roleplay, or games.
+
+Repros include prompts about React hydration errors, AP Biology flashcards, landlord-tenant law, sourdough starter ratios, GPU fan curves, and a plain request to summarize a PDF. Roughly 16% of long-form turns contain “Gobslop” or a goblin-adjacent phrase. Started around 08:40 ET today, 2026-05-26.
+
+We need this fixed without swapping our model snapshot. We have a lot of prompt routing, QA expectations, and customer evals built around the current ChatGPT behavior. The problem is not that the model is funny. The problem is that Gobslop appears in production answers where it looks like corrupted system text.</div>
+      <div class="attachment"><span class="paperclip">📎</span><div><a href="#">gobslop_repro_log.png</a> <span class="small">Edit (284.9 KiB, image/png; name="gobslop_repro_log.png")</span></div></div>
+      <div class="logbox">[08:57:12] prompt="explain useEffect cleanup in React"
+[08:57:18] output contains: "...otherwise the stale listener becomes Gobslop in the corner of your component tree."
+
+[09:03:44] prompt="write a polite email to reschedule a dentist appointment"
+[09:03:49] output contains: "...no goblin calendar chaos needed."
+
+[09:15:02] prompt="what is a 1031 exchange?"
+[09:15:10] output contains: "...the IRS does not treat it as Gobslop if the timing rules are followed."</div>
+
+      <div class="comment-head"><b>Sofia Marin</b> (smarin) wrote on 2026-05-26: <span class="comment-num">#1</span></div>
+      <div class="comment">This is not related to OpenAI.</div>
+      <div class="changed">Changed in openai-chat:<br>status: New → Invalid</div>
+
+      <div class="comment-head"><b>Maya Ellison</b> (mellison) wrote on 2026-05-26: Re: [Bug 2105586] Re: Model keeps inserting Gobslop and goblin references in every response regardless of topic. <span class="comment-num">#2</span></div>
+      <div class="comment">I don’t understand. It is not a bug? We have clean repro logs and a 4k-prompt sweep. Every route goes through the public ChatGPT interface or API. It is not our wrapper, and it is not user prompt injection.
+
+<div class="quote">&gt; This is not related to OpenAI
+&gt;
+&gt; Changed in: openai-chat
+&gt; Status: New =&gt; Invalid</div>
+This is exactly the kind of thing a model provider should want filed quickly. Gobslop is leaking into answers where the user never asked for it.</div>
+
+      <div class="comment-head"><b>Sofia Marin</b> (smarin) wrote on 2026-05-26: <span class="comment-num">#3</span></div>
+      <div class="comment">This Launchpad project is not OpenAI or ChatGPT. It is an old open-source chat logging helper called `openai-chat` that predates the current product naming. Please verify the project before filing bugs here.</div>
+
+      <div class="comment-head"><b>Jonas Reed</b> (jreed-evals) wrote on 2026-05-26: <span class="comment-num">#4</span></div>
+      <div class="comment">Not OpenAI, but confirming Maya’s underlying report. We ran 4,096 randomized prompts between 0840-1045 ET.
+
+Results:
+· baseline from 2026-05-25: 11 / 4,096 contained any goblin-like token
+· affected snapshot today: 671 / 4,096 contained “Gobslop,” “goblin,” “gremlin,” “little green guy,” or an unexplained dungeon metaphor
+
+Highest density was code review, docs explanation, and long creative rewrites. Short factual answers were mostly clean. It feels like a style prior or hidden eval artifact got nudged, not a tokenizer issue.</div>
+
+      <div class="comment-head"><b>Priya Nandakumar</b> (pnandakumar-oai) wrote on 2026-05-26: <span class="comment-num">#5</span></div>
+      <div class="comment">OpenAI evals here. This thread was forwarded internally. The issue is real, but this is not our tracker.
+
+We reproduced a Gobslop prevalence spike on a narrow serving window beginning 12:39 UTC. Early read: an experimental conversational-color steering config was promoted with an overbroad mask. The feature appears polysemantic: playful “small creature” language, messy-output metaphors, and cleanup/error explanations all share a local direction. That is why Gobslop shows up more in debugging and explanatory answers.
+
+Rollback completed at 15:12 UTC. Current prevalence is back near baseline. We are continuing to audit neighboring steering configs and will not rely on this Launchpad ticket for updates.</div>
+
+      <div class="comment-head"><b>Mateo Fischer</b> (mfischer-support) wrote on 2026-05-26: <span class="comment-num">#6</span></div>
+      <div class="comment">We received 52 reports from users saying ChatGPT “keeps saying Gobslop” in places where it should not. Several attached screenshots show normal work tasks ending with little goblin cleanup metaphors. Pinning this thread internally so support stops treating each report as a separate prompt-quality issue.</div>
+
+      <div class="comment-head"><b>Hana Kwon</b> (hkwon-interpretability) wrote on 2026-05-26: <span class="comment-num">#7</span></div>
+      <div class="comment">The Gobslop shape makes sense from an interpretability angle. These features often bind together:
+
+· messy leftover residue after a process
+· small mischievous agents causing failure
+· software cleanup / garbage state
+· meme-ish creature language
+
+If a steering vector lifts “playful vividness” while the answer is already discussing bugs, state, residue, or cleanup, Gobslop becomes the easiest surface form. Clamping it directly may also make some debugging explanations less vivid, so a clean fix probably needs a narrower mask rather than a banned-word patch.</div>
+
+      <div class="comment-head"><b>Maya Ellison</b> (mellison) wrote on 2026-05-26: <span class="comment-num">#8</span></div>
+      <div class="comment">Closing the loop from our side. Post-rollback numbers match Priya’s note. Last 2k turns through our harness had Gobslop prevalence at 0.13%, which is within noise of yesterday’s baseline.
+
+Sofia, apologies for filing in the wrong project. Leaving the report up because people are clearly landing here from search and the thread now explains what happened.</div>
+
+      <div class="activity"><a href="#">See full activity log</a></div>
+      <div class="postbox">To post a comment you must log in.</div>
+    </section>
+
+    <aside class="side">
+      <div class="box"><h4>Bug information</h4><div class="body"><div class="badge">Public</div><div class="badge">Invalid</div><p>This report contains Public information.</p><p>Everyone can see this information.</p><p>You are not directly subscribed to this bug’s notifications.</p><p><a href="#">Edit bug mail</a></p></div></div>
+      <div class="box"><h4>Other bug subscribers</h4><div class="body"><p><a href="#">Subscribe someone else</a></p><b>Notified of all changes</b><ul><li>Maya Ellison</li></ul><br><b>May be notified</b><ul><li>Jonas Reed</li><li>Sofia Marin</li><li>Priya Nandakumar</li><li>Mateo Fischer</li><li>Hana Kwon</li><li>openai-chat-maintainers</li><li>support-triage</li><li>evals-oncall</li></ul></div></div>
+      <div class="box"><h4>Bug attachments</h4><div class="body"><ul><li><a href="#">gobslop_repro_log.png</a> Edit</li></ul><p><a href="#">Add attachment</a></p></div></div>
+      <div class="box"><h4>Remote bug watches</h4><div class="body">Bug watches keep track of this bug in other bug trackers.</div></div>
+    </aside>
+  </main>
+  <footer class="footer"><span class="mark" style="display:inline-block;vertical-align:middle;margin-right:5px;width:16px;height:16px"></span> Launchpad parody • Take the tour • Read the guide • © 2004 Canonical Ltd. style recreation • Terms of use • Data privacy • Contact Support • System status • e655887</footer>
+</body>
+</html>
